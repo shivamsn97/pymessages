@@ -119,6 +119,14 @@ class MessagesClient(AsyncIOEventEmitter):
             service = MessageService(self.page)
             self.emit('authenticated', service)
             self.is_authenticated = True
+        try:
+            await self.page.waitForSelector('#mat-checkbox-1')
+            dontshowCheckBox = await self.page.J('#mat-checkbox-1')
+            await dontshowCheckBox.click()
+            dontShowBtn = await self.page.J('body > mw-app > mw-bootstrap > div > main > mw-main-container > div > mw-main-nav > div > mw-banner > div > mw-remember-this-computer-banner > div > div.button-align > button.action-button.confirm.mat-focus-indicator.mat-button.mat-button-base')
+            await dontShowBtn.click()
+        except:
+            pass
 
     async def getCredentials(self):
         await self.page.waitForFunction('!!localStorage.getItem("pr_backend_type")')

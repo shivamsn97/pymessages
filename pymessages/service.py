@@ -71,14 +71,17 @@ class MessageService:
         return inbox
 
     async def sendMessage(self,to:str, text:str):
-        await self.page.waitForNavigation({ 'waitUntil': 'load' })
+        try:
+            await self.page.waitForNavigation({ 'waitUntil': 'domcontentloaded' })
+        except:
+            pass
         await self.page.waitForSelector('body > mw-app > mw-bootstrap > div > main > mw-main-container > div > mw-main-nav > mws-conversations-list > nav > div.conv-container.ng-star-inserted > mws-conversation-list-item')
         # TODO: parse to var to check if country code is included or not
         newChatBtn = await self.page.J('body > mw-app > mw-bootstrap > div > main > mw-main-container > div > mw-main-nav > div > mw-fab-link > a')
         await newChatBtn.click()
         await self.page.waitForNavigation({ 'waitUntil': 'domcontentloaded' })
         try:
-            await self.page.waitForXPath('//*[@id="mat-chip-list-0"]/div/input')
+            await self.page.waitForXPath('//*[@id="mat-chip-list-0"]/div/input', { 'timeout': 5000 })
         except:
             pass
         numberInput = await self.page.Jx('//*[@id="mat-chip-list-0"]/div/input')
@@ -94,12 +97,16 @@ class MessageService:
             pass
         msgInput = await self.page.Jx('/html/body/mw-app/mw-bootstrap/div/main/mw-main-container/div/mw-conversation-container/div[1]/div/mws-message-compose/div/div[2]/div/mws-autosize-textarea/textarea')
         
-        if (msgInput):
+        if len(msgInput):
             await msgInput[0].type(text)
             await self.page.waitForXPath('/html/body/mw-app/mw-bootstrap/div/main/mw-main-container/div/mw-conversation-container/div[1]/div/mws-message-compose/div/div[2]/div/mws-message-send-button/button')
             sendBtn = await self.page.Jx('/html/body/mw-app/mw-bootstrap/div/main/mw-main-container/div/mw-conversation-container/div[1]/div/mws-message-compose/div/div[2]/div/mws-message-send-button/button')
             await sendBtn[0].click()
-            
+        else:
+            self.page.reload()
+            print("Warning: Retrying")  #TODO use logger.
+            self.sendMessage(to, text)
+
         # TODO: return messageId
         return 
 

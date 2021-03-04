@@ -7,7 +7,7 @@ def readme():
 
 
 setup(name='pymessages',
-      version='0.1.3',
+      version='0.1.4',
       description='This is a Google Messages Client library to send message with a backend .eg. with flask to send otp messages. This module uses your own number to work as a sms gateway api and you can send message to other person with your own number.',
       long_description=readme(),
       long_description_content_type='text/markdown',
