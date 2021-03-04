@@ -17,26 +17,6 @@ class ClientOptions:
         self.headless = headless
         self.credentials = credentials
 
-class Listener:
-    group: int
-    func: Callable
-    event: str
-
-    def __init__(self, group, func, event) -> None:  #TODO add exceptions
-        self.group = group
-        self.func = func
-        self.event = event
-
-    def check(self, event) -> bool:
-        return self.event == event
-
-    def call(self, data, service) -> object:  #TODO add exceptions
-        return self.func(data, service)
-
-    def callonevent(self, event, data, service) -> object: 
-        if self.event == event:
-            self.func(data, service)
-        return None
 
 class MessagesClient(AsyncIOEventEmitter):
     page: pyppeteer.page.Page
@@ -171,7 +151,7 @@ class MessagesClient(AsyncIOEventEmitter):
 
     async def quit(self):
         await self.browser.close()
-        
+
 
     def __del__(self):
         self.loop.run_until_complete(self.quit())
