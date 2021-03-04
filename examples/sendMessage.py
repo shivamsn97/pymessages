@@ -1,7 +1,7 @@
 from pymessages.client import MessagesClient
 
 creds = MessagesClient.loadCredentialFile('credentials.json')
-client = MessagesClient(creds, False)
+client = MessagesClient(creds)
 
 TO = "+919876543210"
 MSG = "Test message sent using PyMessages wrapper."
