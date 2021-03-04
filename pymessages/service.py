@@ -71,6 +71,36 @@ class MessageService:
         return inbox
 
     async def sendMessage(self,to:str, text:str):
-        pass
+        await self.page.waitForNavigation({ 'waitUntil': 'load' })
+        await self.page.waitForSelector('body > mw-app > mw-bootstrap > div > main > mw-main-container > div > mw-main-nav > mws-conversations-list > nav > div.conv-container.ng-star-inserted > mws-conversation-list-item')
+        # TODO: parse to var to check if country code is included or not
+        newChatBtn = await self.page.J('body > mw-app > mw-bootstrap > div > main > mw-main-container > div > mw-main-nav > div > mw-fab-link > a')
+        await newChatBtn.click()
+        await self.page.waitForNavigation({ 'waitUntil': 'domcontentloaded' })
+        try:
+            await self.page.waitForXPath('//*[@id="mat-chip-list-0"]/div/input')
+        except:
+            pass
+        numberInput = await self.page.Jx('//*[@id="mat-chip-list-0"]/div/input')
+        if len(numberInput):
+            await numberInput[0].type(to)
+            await self.page.waitForXPath('/html/body/mw-app/mw-bootstrap/div/main/mw-main-container/div/mw-new-conversation-container/div/mw-contact-selector-button/button')
+            contactBtn = await self.page.Jx('/html/body/mw-app/mw-bootstrap/div/main/mw-main-container/div/mw-new-conversation-container/div/mw-contact-selector-button/button')
+            await contactBtn[0].click()
+
+        try:
+            await self.page.waitForXPath('/html/body/mw-app/mw-bootstrap/div/main/mw-main-container/div/mw-conversation-container/div[1]/div/mws-message-compose/div/div[2]/div/mws-autosize-textarea/textarea')
+        except:
+            pass
+        msgInput = await self.page.Jx('/html/body/mw-app/mw-bootstrap/div/main/mw-main-container/div/mw-conversation-container/div[1]/div/mws-message-compose/div/div[2]/div/mws-autosize-textarea/textarea')
+        
+        if (msgInput):
+            await msgInput[0].type(text)
+            await self.page.waitForXPath('/html/body/mw-app/mw-bootstrap/div/main/mw-main-container/div/mw-conversation-container/div[1]/div/mws-message-compose/div/div[2]/div/mws-message-send-button/button')
+            sendBtn = await self.page.Jx('/html/body/mw-app/mw-bootstrap/div/main/mw-main-container/div/mw-conversation-container/div[1]/div/mws-message-compose/div/div[2]/div/mws-message-send-button/button')
+            await sendBtn[0].click()
+            
+        # TODO: return messageId
+        return 
 
 

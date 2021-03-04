@@ -61,13 +61,30 @@ client.idle()
 
 3. send message
 
-- Will be implemented soon.
+```python
+from pymessages.client import MessagesClient
+
+creds = MessagesClient.loadCredentialFile('credentials.json')
+client = MessagesClient(creds, False)
+
+TO = "+919876543210"
+MSG = "Test message sent using PyMessages wrapper."
+
+@client.on('authenticated')
+async def onAuthenticated(service):
+    print("Sending Messages.")
+    await service.sendMessage(TO, MSG)
+    print("Done.")
+
+client.launch()
+client.idle()
+```
 
 - Examples are given [here](https://github.com/shivamsn97/pymessages/tree/main/examples).
 
 ### Todos
 - add pagination in getInbox
-- add sendMessage in Service
+- ~~add sendMessage in Service~~
 - add public method in client to save credentials to a file
 - sendMessage: parse to var to check if country code is included or not
 - Rewrite docs with proper details
