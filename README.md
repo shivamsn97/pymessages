@@ -21,7 +21,7 @@ import json
 import base64
 import re
 
-client = MessagesClient(headless=False)
+client = MessagesClient()
 
 @client.on('qr-code')
 async def on_qr_code(base64Image):
@@ -48,7 +48,7 @@ from pymessages.client import MessagesClient
 import json
 
 creds = MessagesClient.loadCredentialFile('credentials.json')
-client = MessagesClient(creds, False)
+client = MessagesClient(creds)
 
 @client.on('authenticated')
 async def onAuthenticated(service):
