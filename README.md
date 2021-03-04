@@ -39,7 +39,7 @@ async def on_authenticated(service):
 client.launch()
 client.idle()
 ```
-Then you can use `credentials.json` file to login 
+Then you can use `credentials.json` file to login .
 
 - With credentials
 
