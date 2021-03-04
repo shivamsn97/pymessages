@@ -1,7 +1,7 @@
 # PYMESSAGES - Google Messages Client for Python
 
 ### What is this?
-- this is a [Google Messages](https://messages.android.com) Client library to send message with a backend .eg. with flask to send otp messages. This module uses your own number to work as a sms gateway api and you can send message to other person with your own number. Ported from [messages-web by Swapnil Soni](https://github.com/SwapnilSoni1999/messages-web).
+- This is a [Google Messages](https://messages.android.com) Client library to send message with a backend .eg. with flask to send otp messages. This module uses your own number to work as a sms gateway api and you can send message to other person with your own number. Ported from [messages-web by Swapnil Soni](https://github.com/SwapnilSoni1999/messages-web).
 
 ### How to use
 
