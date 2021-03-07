@@ -7,7 +7,7 @@ def readme():
 
 
 setup(name='pymessages',
-      version='0.1.4',
+      version='0.2',
       description='📱 SMS gateway using your own phone!',
       long_description=readme(),
       long_description_content_type='text/markdown',

@@ -52,7 +52,8 @@ client = MessagesClient(creds)
 
 @client.on('authenticated')
 async def onAuthenticated(service):
-    inbox = await service.getInbox()
+    inbox = await service.getInbox(start=10, limit=20) #will return 20 elements starting from the 11th element. 
+    # By default, start is 0 and limit is 50. You can set limit to -1 to return all elements after the starting point. 
     print(json.dumps(inbox, indent=4))
 
 client.launch()
@@ -83,7 +84,7 @@ client.idle()
 - Examples are given [here](https://github.com/shivamsn97/pymessages/tree/main/examples).
 
 ### Todos
-- add pagination in getInbox
+- ~~add pagination in getInbox~~
 - ~~add sendMessage in Service~~
 - add public method in client to save credentials to a file
 - sendMessage: parse to var to check if country code is included or not
