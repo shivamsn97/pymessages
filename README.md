@@ -90,6 +90,7 @@ client.idle()
 - Rewrite docs with proper details
 - detect if phone is not connected
 - detect if web client is open in another browser or not
+- Use logger module
 
 # License 
 ISC - Swapnil Soni &copy;

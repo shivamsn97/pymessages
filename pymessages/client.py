@@ -27,8 +27,8 @@ class MessagesClient(AsyncIOEventEmitter):
     is_authenticated: bool = False
 
     def __init__(self, credentials={"cookies":[], "localStorage": {}}, headless=True):
-        super(MessagesClient, self).__init__()
         self.loop = asyncio.get_event_loop()
+        super(MessagesClient, self).__init__(loop=self.loop)
         try:
             self.loop.add_signal_handler(signal.SIGTERM, self.stop)
         except NotImplementedError:

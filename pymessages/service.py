@@ -23,12 +23,12 @@ class MessageService:
     def __init__(self, page: pyppeteer.page.Page):
         self.page = page
 
-    async def getInbox(self):
+    async def getInbox(self, start=0, limit=50):
         # TODO: add pagination
         await self.page.waitForNavigation({"waitUntil": 'load'})
         await self.page.waitForSelector('body > mw-app > mw-bootstrap > div > main > mw-main-container > div > mw-main-nav > mws-conversations-list > nav > div.conv-container.ng-star-inserted > mws-conversation-list-item')
 
-        inbox = await self.page.evaluate("""() => {
+        inbox = await self.page.evaluate("""(start, limit) => {
         
             function evalConvoElement (conversation) {
                 const props = {
@@ -60,14 +60,21 @@ class MessageService:
 
             const conversations = document.querySelectorAll("body > mw-app > mw-bootstrap > div > main > mw-main-container > div > mw-main-nav > mws-conversations-list > nav > div.conv-container.ng-star-inserted > mws-conversation-list-item")
             const msgs = []
+            var i = 0
             for (const conversation of conversations) {
                 if (conversation) {
-                    msgs.push(evalConvoElement(conversation))
+                    if(limit >= 0 && i>=limit+start) {
+                        break
+                    }
+                    if(i>=start){
+                        msgs.push(evalConvoElement(conversation))
+                    }
+                    i++
                 }
             }
             return msgs
         }
-        """)
+        """, start, limit)
         return inbox
 
     async def sendMessage(self,to:str, text:str):
